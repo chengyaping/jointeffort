@@ -10,11 +10,12 @@
 \usepackage{amssymb,bm,mathrsfs,bbm,amscd}
 \usepackage[tbtags]{amsmath}
 \usepackage{lastpage}
+\usepackage{todonotes}
 
 
 \begin{document}
 
-\title{directionality study in Liquid Scintillator Detector}
+\title{electron track direction study in Liquid Scintillator Detector}
 
 \author{%
       Cheng Yaping$^{1}$\email{chengyp@mail.ihep.ac.cn}%
@@ -55,80 +56,48 @@ Liquid Scintillator, Cerenkov light, track direction
 %%what elements that restrict the track reconstruction performance?
 %study whether you can improve it. how about reduce the light yield of the LS, changed it to LAB?
 
-\section{Current efforts towards directionality in neutrino detectors}
-Neutrino detectors with directionality nature are highly desirable. 
+\section{Current efforts towards directionality in neutrino detection}
+Neutrino detectors with directionality nature are highly desirable.
 Its potential applications are various, including nuclear reactor activity monitoring,
-geo-neutrino spatially mapping, characterizing the diffuse supernova neutrino background and searching
-for new physics in the neutrino sector. 
+geo-neutrino spatially mapping and background identification.
+There are various detection methods used nowadays with direction extraction
+ability.
 
+\begin{itemize}
+\item Time Projection Chamber
+\item Segmented detector
+\todo {to be filled \ldots}
+\item metal-loaded liquid scintillator
+\item Water-based liquid scintillator detector
+\end{itemize}
 
-There o are various particle detection methods used nowadays and the most common is using scintillators . Among 
-scintillating materials, solid plastic and water-ba sed liquid scintillators (WbLS) are the latest development. In 
-particular, WbLS allows researchers to apply different particle detection methods for increased experiment efficiency. This su
-rvey attempts to make an overview on detection methods and detectors in high-energy physics using scintillator
-s. It is meant as a summary for those new to scintillator detectors and looking for 
-general material on the topic. 
+In this manuscript, the track direction reconstruction heavily relied on
+detector timing performance. The Flash-ADC readout system combined with
+waveform fitting algorithm provide one way to meet the time resolution demand.
+The basic principal is to increase the Cerenkov light ratio to about 10\% by selecting early
+hits using a time window. Then using a maximum
+likelihood method based on photon angular distribution we can reconstruct the
+track direction.
 
+\section{Some general discussion about track direction extraction in LS}
 
-The supernova(SN) is assumed as the explosion in the final stage of the
-stellar evolution. Determination of a SN explosion direction is essential for
-both early stage astronomical observations and optically invisible SN.
-Jiangmen Underground Neutrino Observatory(JUNO) has 20 kton liquid
-scintillator as target, equipped with more than 18000 PMTs, which provides good
-opportunity for SN detection.There are six detection channels in JUNO.
-Inverse beta decay(IBD) and neutrino-electron scattering are taken to probe the
-supernova direction by utilizing positron and electron track information in
-liquid scintillator.
-\section{electron track in liquid scintillator detector}
-Physical processes involved include multi-scattering, which changes
-particles' momentum direction. A typical track is show in
-Fig.~\ref{msc_effect}.The deposited energy by each step is
-represented by the marker size and different color indicated the process that
-defined the step.
-\begin{center}
-\includegraphics[width=8.5cm]{eps/msc_effect.eps}
-\figcaption{\label{msc_effect} electron track in Liquid Scintillator.}
-\end{center}
-
-The multiple scattering of electrons make the Cerenkov ring fuzzy.In order to
-evaluate the intrinsic angular resolution of LS, the deposited energy weighted
-angular error is show in Table~\ref{tab2}.Multi-scattering
-contributes a lot to electron's drifting away from its original track.
-
-\begin{center}
-\tabcaption{\label{tab2} intrinsic resolution }
-\footnotesize
-\begin{tabular*}{170mm}{@{\extracolsep{\fill}}cccccccccc}
-\toprule 3&4&5&6&7&8&9&10&11&12\\
-\hline
-25.38&22.95&22.75&20.88&20.52&18.75&18.17&17.71&17.22&16.2\\
-\bottomrule
-\end{tabular*}
-\end{center}
-
-
-\section{trouble with scintillation light}
 Cerenkov light has unique polarization and directional properties.
 Neutrino observatory, such as Super-kamiokande, exploits Cerenkov
 light to observe the direction of electrons produced in neutrino
-elastic scattering interactions,directly demonstrated that the sun was a source of neutrinos.
-Liquid scintillator neutrino observatory, such as Daya Bay, mostly exploit scintillation light.
- This kind of detector features low energy threshold for neutrinos and high energy resolution.
+elastic scattering interactions, directly demonstrated that the
+sun was a source of neutrinos. Liquid scintillator neutrino observatory,
+such as Daya Bay, mostly exploit scintillation light.
 Scintillation light is isotropic, therefore no direction information can be
-derived using scintillation light. The feasibility to pick up
-a large fraction of Cerenkov light in a sea of scintillation photons
+derived using scintillation light.
+First, the feasibility to pick up Cerenkov light in a sea of scintillation photons
 need to be studied.
-Here we study this separation power in JUNO detector and relevant elements that affect this power.
-% Besides, a new Concept Scintillator Detector named WBLS  \cite{lab3} also tries
-% to take advantage of both Cerenkov light and scintallation light. It's really the trend.
-
-
-\section{Strategies used to separate Cerenkov light and scintillation light}
 All studied conducted are based the simulation framework for  Jiangmen
 Underground Neutrino Observatory (JUNO). JUNO is a multi-purpose
-neutrino experiment, illustrated in Fig.~\ref{LSDetector}.It consists of a central detector, a water Cerenkov detector and a
+neutrino experiment, illustrated in Fig.~\ref{LSDetector}.It consists
+of a central detector, a water Cerenkov detector and a
 muon tracker.The central detector is a LS detector of 20 Kton fiducial mass and
-3\%/$\sqrt{E(MeV)}$energy resolution.The PMT photocathode coverage is $\ge$ 75\%.The PMT photocathode quantum efficiency is
+3\%/$\sqrt{E(MeV)}$energy resolution.The PMT photocathode coverage is $\ge$ 75\%.
+The PMT photocathode quantum efficiency is
 $\ge$ 35\%.The attenuation length of the liquid scintillator needs $\ge$ 20m at 430 nm.
 \begin{center}
 \includegraphics[width=8.5cm]{eps/detector2.eps}
@@ -149,6 +118,34 @@ photons ratio than scintillation light Fig.~\ref{figwavelength}. Long wavelength
 \includegraphics[width=9.0cm]{eps/wavelength.eps}
 \figcaption{\label{figwavelength}   PMT Detected Wavelength Distribution.}
 \end{center}
+Second, we need to discuss the impact of multi-scattering on electron tracks.
+Physical processes involved include multi-scattering, which changes
+particles' momentum direction. A typical track is show in
+Fig.~\ref{msc_effect}.The deposited energy by each step is
+represented by the marker size and different color indicated the post step
+process.
+\begin{center}
+\includegraphics[width=8.5cm]{eps/msc_effect.eps}
+\figcaption{\label{msc_effect} electron track in Liquid Scintillator.}
+\end{center}
+
+The multiple scattering of electrons make the Cerenkov ring fuzzy. In order to
+evaluate the intrinsic angular resolution of LS, the deposited energy weighted
+angular error is show in Table~\ref{tab2}.Multi-scattering
+contributes a lot to electron's drifting away from its original track.
+
+\begin{center}
+\tabcaption{\label{tab2} intrinsic resolution }
+\footnotesize
+\begin{tabular*}{170mm}{@{\extracolsep{\fill}}cccccccccc}
+\toprule 3&4&5&6&7&8&9&10&11&12\\
+\hline
+25.38&22.95&22.75&20.88&20.52&18.75&18.17&17.71&17.22&16.2\\
+\bottomrule
+\end{tabular*}
+\end{center}
+
+
 
 
 \subsection{reconstruction of lepton track}
@@ -507,6 +504,18 @@ long light path photons.
 % "\includegraphics" is very powerful; the graphicx package is already loaded
 \caption{\label{tof_cor} single and multi effective speed comparison.}
 \end{figure}
+\section{}
+
+The supernova(SN) is assumed as the explosion in the final stage of the
+stellar evolution. Determination of a SN explosion direction is essential for
+both early stage astronomical observations and optically invisible SN.
+Jiangmen Underground Neutrino Observatory(JUNO) has 20 kton liquid
+scintillator as target, equipped with more than 18000 PMTs, which provides good
+opportunity for SN detection.There are six detection channels in JUNO.
+Inverse beta decay(IBD) and neutrino-electron scattering are taken to probe the
+supernova direction by utilizing positron and electron track information in
+liquid scintillator.
+
 \subsection{SN pointing precision}
 
 If during the lifetime of JUNO a supernova exploded as expected at the center of
