@@ -79,81 +79,118 @@ hits using a time window. Then using a maximum
 likelihood method based on photon angular distribution we can reconstruct the
 track direction.
 
-\section{Some general discussion about track direction extraction in LS}
+\section{General discussion about track direction extraction in LS}
 
 Cerenkov light has unique polarization and directional properties.
 Neutrino observatory, such as Super-kamiokande, exploits Cerenkov
 light to observe the direction of electrons produced in neutrino
 elastic scattering interactions, directly demonstrated that the
-sun was a source of neutrinos. Liquid scintillator neutrino observatory,
+sun was a source of neutrinos.
+Liquid scintillator neutrino observatory,
 such as Daya Bay, mostly exploit scintillation light.
 Scintillation light is isotropic, therefore no direction information can be
 derived using scintillation light.
-First, the feasibility to pick up Cerenkov light in a sea of scintillation photons
+\todo {appropriate?}
+
+Firstly, the feasibility to pick up Cerenkov light in a sea of scintillation photons
 need to be studied.
-All studied conducted are based the simulation framework for  Jiangmen
-Underground Neutrino Observatory (JUNO). JUNO is a multi-purpose
-neutrino experiment, illustrated in Fig.~\ref{LSDetector}.It consists
-of a central detector, a water Cerenkov detector and a
-muon tracker.The central detector is a LS detector of 20 Kton fiducial mass and
-3\%/$\sqrt{E(MeV)}$energy resolution.The PMT photocathode coverage is $\ge$ 75\%.
-The PMT photocathode quantum efficiency is
-$\ge$ 35\%.The attenuation length of the liquid scintillator needs $\ge$ 20m at 430 nm.
-\begin{center}
-\includegraphics[width=8.5cm]{eps/detector2.eps}
-\figcaption{\label{LSDetector}   JUNO Liquid Scintillator Detector. }
-\end{center}
+All studies are performed under the Geant4 simulation for a large Liquid
+scintillator.
+The fiducial mass is 20 Kton with LS sphere radius 17.7m.
+The PMT photocathode coverage is $\ge$ 75\% and its
+quantum efficiency is
+$\ge$ 35\%. The attenuation length of the liquid scintillator needs to be $\ge$ 20m at 430 nm.
+\todo{more specific}
+%\begin{center}
+%\includegraphics[width=8.5cm]{eps/detector2.eps}
+%\figcaption{\label{LSDetector}   JUNO Liquid Scintillator Detector. }
+%\end{center}
 %\subsection{principals to separate Cerenkov light and scintillation light}
-one possible way to distinguish Cerenkov light and scintillating light is by their hittime
-difference\cite{lab2}.we expect PMT detect Cerenkov light earlier than scintillation light.
-First of all, all Liquid scintillator has fast and slow components, in JUNO case, this is 4.93*ns (79.9\%) and 20.6*ns respectively.
+One possible way to distinguish Cerenkov light and scintillating light is by their hittime
+difference\cite{lab2}. We expect PMT detect Cerenkov light earlier than scintillation light.
+On the one hand, all Liquid scintillator has fast and slow components. In our
+case, the fast and slow time constants are 4.93 and 20.6 ns respectively with
+ratio  79.9\% and \%respectively (Table ~\ref{tab1}) .
 Therefore, there is a delay of several nanoseconds between the photon emission and the energy deposit.
-Opposed to scintillation, Cerenkov radiation produced from very small displacements by a very large number of electrons
-,occurs immediately after the particle has passed since electrons would return to their normal positions
+In the other case, Cerenkov radiation produced from very small displacements by a very large number of electrons
+, occurs immediately after the particle has passed and electrons would return to their normal positions
  instantaneously\cite{special_article}.
- Secondly, Cerenkov radiation spectrum is continuous and it has more long wavelength
-photons ratio than scintillation light Fig.~\ref{figwavelength}. Long wavelength photon moves faster and has less absorption
- and reemission chance in the transportation process in Liquid scintillator. Both makes Cerenkov photon keeps ahead.
 \begin{center}
-\includegraphics[width=9.0cm]{eps/wavelength.eps}
-\figcaption{\label{figwavelength}   PMT Detected Wavelength Distribution.}
+\tabcaption{\label{tab1} Time constants of LS }
+\footnotesize
+\begin{tabular*}{100mm}{@{\extracolsep{\fill}}cccc}
+\toprule Particles & Fast(ns)/ratio & Slow(ns)/ratio &Slower(ns)/ratio \\
+\hline
+$\gamma$,e$^+$,e$^-$&4.93/79.9\%&20.6/17.1\%&190/3.0\% \\
+n,p&4.93/65\%&34.0/23.1\%&220/11.9\% \\
+$\alpha$&4.93/65\%&35.0/22.8\%&220/12.2\%\\
+\bottomrule
+\end{tabular*}
 \end{center}
-Second, we need to discuss the impact of multi-scattering on electron tracks.
+On the other hand, Cerenkov radiation spectrum is continuous and it has more
+long wavelength
+photons ratio than scintillation light Fig.~\ref{figwavelength}. Long
+wavelength photon moves faster and has less absorption
+and reemission chance in the transportation process in Liquid scintillator.
+Both facts makes Cerenkov photon keeps ahead.
+\begin{figure}[htbp]
+\centering
+\begin{minipage}{0.5\textwidth}
+\centering
+\includegraphics[width=7cm]{eps/wavelength.eps}
+\caption{PMT Detected Wavelength Distribution}
+\end{minipage}%
+\begin{minipage}{0.5\textwidth}
+\centering
+\includegraphics[width=8cm]{eps/CS_sep.eps}
+\caption{Hittime difference}
+\end{minipage}
+\end{figure}
+%\begin{center}
+%\includegraphics[width=8.5cm]{eps/wavelength.eps}
+%\figcaption{\label{figwavelength}   PMT Detected Wavelength Distribution.}
+%\end{center}
+%\begin{center}
+%\includegraphics[width=8.5cm]{eps/CS_sep.eps}
+%\figcaption{\label{figCS_sep}   Hittime difference.}
+%\end{center}
+
+Secondly, we need to discuss the impact of multi-scattering on electron tracks.
 Physical processes involved include multi-scattering, which changes
 particles' momentum direction. A typical track is show in
-Fig.~\ref{msc_effect}.The deposited energy by each step is
+Fig.~\ref{msc_effect}. The deposited energy by each step is
 represented by the marker size and different color indicated the post step
-process.
+process. The multiple scattering of electrons make the Cerenkov ring fuzzy. In order to
+evaluate the intrinsic angular resolution of LS, the deposited energy weighted
+angular error is show in Table~\ref{tab2}. Multi-scattering
+contributes a lot to electron's drifting away from its original track.
 \begin{center}
 \includegraphics[width=8.5cm]{eps/msc_effect.eps}
 \figcaption{\label{msc_effect} electron track in Liquid Scintillator.}
 \end{center}
 
-The multiple scattering of electrons make the Cerenkov ring fuzzy. In order to
-evaluate the intrinsic angular resolution of LS, the deposited energy weighted
-angular error is show in Table~\ref{tab2}.Multi-scattering
-contributes a lot to electron's drifting away from its original track.
 
 \begin{center}
 \tabcaption{\label{tab2} intrinsic resolution }
 \footnotesize
-\begin{tabular*}{170mm}{@{\extracolsep{\fill}}cccccccccc}
-\toprule 3&4&5&6&7&8&9&10&11&12\\
+\begin{tabular*}{170mm}{@{\extracolsep{\fill}}ccccccccccc}
+\toprule Energy&3&4&5&6&7&8&9&10&11&12\\
 \hline
-25.38&22.95&22.75&20.88&20.52&18.75&18.17&17.71&17.22&16.2\\
+:[$^{\circ}$]&25.38&22.95&22.75&20.88&20.52&18.75&18.17&17.71&17.22&16.2\\
 \bottomrule
 \end{tabular*}
 \end{center}
+\todo{necessary?}
 
 
-
-
-\subsection{reconstruction of lepton track}
-There are two steps to reconstruct lepton track.
-Firstly, vertex reconstruction from the time Likelihood method.FIXME insert
-the performance here.
-Then, pick up early hits on time of flight subtracted hittime pdf. For
-example, if the electron momentum is 3.0 MeV and originated
+\section{electron track direction reconstruction method}
+The first step in track direction reconstruction is to get the reconstructed event vertex.
+For point-like events, such as e$^+$,e$^-$,$\gamma$, vertex reconstruction was crucial for 
+residual time estimation, which is the hit time of the PMT minus the real start time of the event and minus the time of flight for
+scintillation photon. The direction reconstruction was relied on the residual time distribution.
+The vertex reconstruction performance from a joint time likehood reconstruction method was as Fig~\ref{vertexperformance}.
+Then, pick up early hits on time of flight subtracted hittime pdf.
+For example, if the electron momentum is 3.0 MeV and originated
 from the detector center, shooting straightly upwards, then by selecting hits whose hittime is less than 98.8 ns ,almost 50\% of
 the hits are generated from Cerenkov photons which contains electron direction information Fig.~\ref{figCS_sep}.
 Electron direction determination is by taking the centroid of all vectors pointing from  the vertex to the hits on the
@@ -412,7 +449,7 @@ Q^{exp}_{i} = N_{tot}\times[rf(\theta^{em}_{i})+(1-r)g(\theta^{em}_{i})]{\times}
 %L(\vec{d}) & = -\sum_{\alpha=1}^{N}q_{\alpha}log(rf(\theta_{em}^{\alpha})+(1-r)g(\theta_{em}^{\alpha}))
 \begin{figure}[htbp]
 \centering % \begin{center}/\end{center} takes some additional vertical space
-\includegraphics[width=.85\textwidth]{plots/rec_performance22.pdf}
+\includegraphics[width=.85\textwidth]{plots/centerresult}
 % "\includegraphics" is very powerful; the graphicx package is already loaded
 \caption{\label{rec_performance} direction reconstruction performance.}
 \end{figure}
@@ -719,3 +756,4 @@ Publisher (year).
 \clearpage
 
 \end{document}
+
