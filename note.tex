@@ -188,7 +188,8 @@ The first step in track direction reconstruction is to get the reconstructed eve
 For point-like events, such as e$^+$,e$^-$,$\gamma$, vertex reconstruction was crucial for 
 residual time estimation, which is the hit time of the PMT minus the real start time of the event and minus the time of flight for
 scintillation photon. The direction reconstruction was relied on the residual time distribution.
-The vertex reconstruction performance from a joint time likehood reconstruction method was as Fig~\ref{vertexperformance}.
+For particles generated at detector center, the vertex reconstruction performance from time likehood reconstruction method
+was as Fig~\ref{vertexperformance}.
 Then, pick up early hits on time of flight subtracted hittime pdf.
 For example, if the electron momentum is 3.0 MeV and originated
 from the detector center, shooting straightly upwards, then by selecting hits whose hittime is less than 98.8 ns ,almost 50\% of
@@ -196,6 +197,10 @@ the hits are generated from Cerenkov photons which contains electron direction i
 Electron direction determination is by taking the centroid of all vectors pointing from  the vertex to the hits on the
 detector Eq.~(\ref{eq1}). Due to scintillation light is isotropic, falsely
 picked up scintillation photons will not bias the direction largely.
+\begin{center}
+\includegraphics[width=8.5cm]{plots/vertexper}
+\figcaption{\label{vertexperformance} vertex reconstruction performance}
+\end{center}
 
 \begin{equation}
 \label{eq1}
