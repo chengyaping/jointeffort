@@ -55,7 +55,7 @@ Liquid Scintillator, Cerenkov light, track direction
 %need to study channel by channel, try to find the possible usage of it.
 %%what elements that restrict the track reconstruction performance?
 %study whether you can improve it. how about reduce the light yield of the LS, changed it to LAB?
-
+\tableofcontents
 \section{Current efforts towards directionality in neutrino detection}
 Neutrino detectors with directionality nature are highly desirable.
 Its potential applications are various, including nuclear reactor activity monitoring,
@@ -89,8 +89,7 @@ sun was a source of neutrinos.
 Liquid scintillator neutrino observatory,
 such as Daya Bay, mostly exploit scintillation light.
 Scintillation light is isotropic, therefore no direction information can be
-derived using scintillation light.
-\todo {appropriate?}
+derived using scintillation light.\todo {appropriate?}
 
 Firstly, the feasibility to pick up Cerenkov light in a sea of scintillation photons
 need to be studied.
@@ -99,8 +98,7 @@ scintillator.
 The fiducial mass is 20 Kton with LS sphere radius 17.7m.
 The PMT photocathode coverage is $\ge$ 75\% and its
 quantum efficiency is
-$\ge$ 35\%. The attenuation length of the liquid scintillator needs to be $\ge$ 20m at 430 nm.
-\todo{more specific}
+$\ge$ 35\%. The attenuation length of the liquid scintillator needs to be $\ge$ 20m at 430 nm.\todo {more specific}
 %\begin{center}
 %\includegraphics[width=8.5cm]{eps/detector2.eps}
 %\figcaption{\label{LSDetector}   JUNO Liquid Scintillator Detector. }
@@ -115,6 +113,10 @@ Therefore, there is a delay of several nanoseconds between the photon emission a
 In the other case, Cerenkov radiation produced from very small displacements by a very large number of electrons
 , occurs immediately after the particle has passed and electrons would return to their normal positions
  instantaneously\cite{special_article}.
+For example, if the electron momentum is 3.0 MeV and originated
+from the detector center, shooting straightly upwards, then by selecting hits whose hittime is less than 98.8 ns ,almost 50\% of
+the hits are generated from Cerenkov photons which contains electron direction
+information and can be used to do direction reconstruction, shown as Fig.~\ref{figCS_sep}.
 \begin{center}
 \tabcaption{\label{tab1} Time constants of LS }
 \footnotesize
@@ -129,8 +131,10 @@ $\alpha$&4.93/65\%&35.0/22.8\%&220/12.2\%\\
 \end{center}
 On the other hand, Cerenkov radiation spectrum is continuous and it has more
 long wavelength
-photons ratio than scintillation light Fig.~\ref{figwavelength}. Long
-wavelength photon moves faster and has less absorption
+photons ratio than scintillation light Fig.~\ref{figwavelength}. 
+For example, the ratio of photons with wavelength longer than 500nm is 23\% 
+for Cerenkov photon, while for scintillation the number is about 1\%.
+Long wavelength photon moves faster and has less absorption
 and reemission chance in the transportation process in Liquid scintillator.
 Both facts makes Cerenkov photon keeps ahead.
 \begin{figure}[htbp]
@@ -184,52 +188,140 @@ contributes a lot to electron's drifting away from its original track.
 
 
 \section{electron track direction reconstruction method}
+There are two stages in the reconstruction procedures. The first stage is hit
+selection. The aim is to select higher purity of Cerenkov photons. It is
+assumed that all scintillation and Cerenkov light is emitted from a single
+point. Then residual time is calculated. The point time residual is the
+difference between the measured and predicted times of each photon hit.
+The predicted time is calculated by using deposited energy vertex from MC truth.
+The next step
+is to select hits in the first 2ns time window in the residual time
+distribution plot. After this stage, about ~10\% purity Cerenkov photon purity
+is achieved. The next stage is to track direction reconstruction. 
 The first step in track direction reconstruction is to get the reconstructed event vertex.
 For point-like events, such as e$^+$,e$^-$,$\gamma$, vertex reconstruction was crucial for 
 residual time estimation, which is the hit time of the PMT minus the real start time of the event and minus the time of flight for
 scintillation photon. The direction reconstruction was relied on the residual time distribution.
 For particles generated at detector center, the vertex reconstruction performance from time likehood reconstruction method
 was as Fig~\ref{vertexperformance}.
-Then, pick up early hits on time of flight subtracted hittime pdf.
-For example, if the electron momentum is 3.0 MeV and originated
-from the detector center, shooting straightly upwards, then by selecting hits whose hittime is less than 98.8 ns ,almost 50\% of
-the hits are generated from Cerenkov photons which contains electron direction information Fig.~\ref{figCS_sep}.
-Electron direction determination is by taking the centroid of all vectors pointing from  the vertex to the hits on the
-detector Eq.~(\ref{eq1}). Due to scintillation light is isotropic, falsely
-picked up scintillation photons will not bias the direction largely.
+Then, the reconstruction procedures are performed by picking up early hits according to the residual time distribution plot.
 \begin{center}
 \includegraphics[width=8.5cm]{plots/vertexper}
 \figcaption{\label{vertexperformance} vertex reconstruction performance}
 \end{center}
 
-\begin{equation}
-\label{eq1}
-\vec{d_0} = \sum_i{q_i\times{\frac{\vec{P_i}- \vec{O_0}}{\|\vec{P_i}-
-\vec{O_0}\|}}}
-\end{equation}
-here,$\vec{d_0}$is the particle direction,$\vec{O_0}$is the vertex position
-derived from vertex reconstruction algorithm.
- $\vec{P_i}$ is the positon and $q_i$ is the charge of the PMT.
+In this manuscript, two track direction reconstruction method are presented.
+The first one is quite obvious and is frequently used in the reconstruction for
+water Cerenkov detectors, such as Super-K.\todo{add reference here}
+The second method is newly developed likelihood reconstruction method and will
+be
+elaborated on with great detail in this manuscript.
 
-\begin{center}
-\includegraphics[width=8.5cm]{eps/CS_sep.eps}
-\figcaption{\label{figCS_sep}   Hittime difference.}
-\end{center}
+\subsection{cone centroid method}
+Since Cerenkov radiation emits a cone centered on the moving particles, the
+direction can be determined by taking the centroid of all vectors pointing 
+from  the vertex to the hits on the detector Eq.~(\eqref{recmethod:1}). \todo{
+    add notation defination here}
+%here,$\vec{d_0}$is the particle direction,$\vec{O_0}$is the vertex position
+%derived from vertex reconstruction algorithm. $\vec{P_i}$ is the positon and 
+%$q_i$ is the charge of the PMT. 
+In liquid scintillator detectors, the
+scintillation light dropped in the early hits selection window will cast a
+uniformly distributed 4$\pi$ solid angle background on the Cerenkov ring.
+Besides, orientation matrix method \eqref{recmethod:2} can also be used.
+The eigenvector with largest eigenvalue represents the reconstructed track direction. 
+%\begin{equation}
+%\label{eq1}
+%\vec{d_0} = \sum_i{q_i\times{\frac{\vec{P_i}- \vec{O_0}}{\|\vec{P_i}-
+%\vec{O_0}\|}}}
+%\end{equation}
 
+\subsection{Angular distribution likelihood fit method}
+The newly developed method is the Likelihood fitting
+method \eqref{recmethod:3}, based on the PMT hit pattern. The predicted hit
+pattern took into account the angular distribution PDF of Cerenkov
+photons and scintillation photons. The annotations in \eqref{recmethod} are
+explained as follows.
+Here i,j denotes for three directions. $\alpha$ is the PMT index. $q_{\alpha}$ is the
+charge of hits. $\theta_{em}^{\alpha}$  is the photon emission angle. r denotes
+the scintillation photon ratio and f,g is the Cerenkov and Scintillation photon
+emission angle distribution PDF. 
+One of the key elements in this
+likelihood method is the shape of the angular distribution of the Cerenkov
+and Scintillation photon. The construction of these two PDF are shown in the
+following paragraph.
+\begin{subequations}\label{recmethod}
+\begin{align}
+\label{recmethod:1}
+S_{i} & = \sum_{\alpha=1}^{N}q^{\alpha}x_{i}^{\alpha}
+\\
+\label{recmethod:2}
+(OM)_{ij} & = \sum_{\alpha=1}^{N}q^{\alpha}x_{i}^{\alpha}x_{j}^{\alpha}
+\\
+\label{recmethod:3}
+Lh &= \sum_{i=1}^{N_{pmt}}[(Q^{exp}_{i}-Q^{obs}_{i})+log(\frac{Q^{obs}_{i}}{Q^{exp}_{i}}){\times}Q^{obs}_{i}]
+\end{align}
+\end{subequations}
+The expected charge was calculated as this:
+\begin{equation*}
+Q^{exp}_{i} = N_{tot}\times[rf(\theta^{em}_{i})+(1-r)g(\theta^{em}_{i})]{\times}h(\theta^{injection}_{i})\times\frac{e^{-\frac{l_i}{L_{att}}}}{l_i^2}
+\end{equation*}
+%L(\vec{d}) & = -\sum_{\alpha=1}^{N}q_{\alpha}log(rf(\theta_{em}^{\alpha})+(1-r)g(\theta_{em}^{\alpha}))
+\todo {need add the performance of the other two methods on this plot}
+\subsection{absolute photon emission angular distribution PDF construction}
+Shape of photon emission angular distribution PDF is derived from MC truth.
+As a matter of fact, the PDF should be the same in LS detector, independent
+of the event vertex and the track direction. However, PDF from MC truth was
+coupled with specific detector simulation configuration. In my case, my
+simulation was done under the sniper framework~\cite{sniper}.\todo{???}
 
-\section{Likelihood Fit method to derive track direction}
-A maximum likelihood method utilizing the Cerenkov and Scintillation light
-angular distribution is tested, illuminated by the direction reconstruction
-method used by Super-Kamiokande-I \cite{super-k-I}.The likelihood function is
-\begin{equation}
-\label{eq2}
-L(\vec{d_0}) = \sum_i-log((\alpha f(\theta_{dir})+(1-\alpha)g(\theta_{dir}))\times\frac{1.}{CE(\theta_i)}
-\end{equation}
-where f and g is the PDF function representing opening angle distribution
-between the particle track direction and the vector pointing from the vertex to
-the center position of fired PMT.$\theta_i$ is the opening angle between the
-direction of the vector from the reconstructed vertex to the ith hit PMT
-position and PMT  facing  direction. Fig.~\ref{fig_subfig} is the angular distribution
+The photon angular distribution difference between particles
+originated at detector center was caused by different PMT configuration since
+PMT was arranged uniformly in the latitude direction. Particles shooting at 
+different directions ``feel" different effective PMT densities.
+When the vertexes deviate from detector center, each PMT has different solid angles
+and incidence angle of the photons to PMT normal direction also differs from 
+each other. These factors all contribute to the final angular distribution.
+Thus, the detector effects should be removed to get absolute PDF.
+Besides, the LS attenuation effect and detection efficiency correction caused by PMT
+angular response need be considered. Two correction curves are derived from MC truth.
+The attenuation effect was modeled to obey the exponential law. By deploying 
+calibration source at certain distance to
+PMT and varying the light injection angle, we can probe the PMT angular
+response. Figure~\ref{att_angu} shows the fitted attenuation length and PMT
+angular response curve to be used to do the detector response correction.
+Figure~\ref{xzcomp} shows the Cerenkov and scintillation PDF before and after
+detector response correction.\todo{this part should be more clear }
+\begin{figure}[htbp]
+\centering % \begin{center}/\end{center} takes some additional vertical space
+\includegraphics[width=.45\textwidth]{plots/attf.pdf}
+\hfill
+\includegraphics[width=.45\textwidth]{plots/anguf.pdf}
+% "\includegraphics" is very powerful; the graphicx package is already loaded
+\caption{\label{att_angu} Attenuation length and angular response.}
+\end{figure}
+\begin{figure}[htbp]
+\centering % \begin{center}/\end{center} takes some additional vertical space
+\includegraphics[width=.45\textwidth]{plots/cor_before.pdf}%final1.pdf}
+\hfill
+\includegraphics[width=.45\textwidth]{plots/cor_after.pdf}%final2.pdf}
+% "\includegraphics" is very powerful; the graphicx package is already loaded
+\caption{\label{xzcomp} photon emission angular pdf before and after
+correction.}
+\end{figure}
+%A maximum likelihood method utilizing the Cerenkov and Scintillation light
+%angular distribution is tested, illuminated by the direction reconstruction
+%method used by Super-Kamiokande-I \cite{super-k-I}.The likelihood function is
+%\begin{equation}
+%\label{eq2}
+%L(\vec{d_0}) = \sum_i-log((\alpha f(\theta_{dir})+(1-\alpha)g(\theta_{dir}))\times\frac{1.}{CE(\theta_i)}
+%\end{equation}
+%where f and g is the PDF function representing opening angle distribution
+%between the particle track direction and the vector pointing from the vertex to
+%the center position of fired PMT.$\theta_i$ is the opening angle between the
+%direction of the vector from the reconstructed vertex to the ith hit PMT
+%position and PMT  facing  direction. 
+Fig.~\ref{fig_subfig} is the angular distribution
 for Cerenkov photon and scintillation photon respectively.
 %\end{multicols}
 %\ruleup
@@ -264,110 +356,118 @@ for Cerenkov photon and scintillation photon respectively.
 %\ruledown
 %\begin{multicols}{2}
 
-\subsection{reconstruction performance}
-Absolute Cerenkov over scintillation fraction prediction in MC is difficult because of uncertainty in reemission probability.
-Fortunately Uncertainty  in  reemission  probability  at  wavelength $>$ 300nm does not significantly affect Cerenkov fraction\cite{DocDB9847}.
-The separation of Cerenkov light and scintillation light relies on the recorded hittime from electronics readout system.
-Therefore PMT TTS can greatly diminish the power of separation.Besides, the separation power should be energy depended.
-For a higher energy,the ratio between direct Cerenkov light and reemitted scintillation light is increasing,as shown in Fig.~\ref{Cerenkov_fraction}.
-Here in geant 4 simulation, the input Birk's constant is 6.5$\times10^{-3}g$/$cm^{2}$$/$MeV and the photon yield
-is 10400P.e. \/MeV.
+\section{reconstruction performance}
+\todo{rephrase}
+Absolute Cerenkov over scintillation fraction prediction in MC is difficult 
+because of uncertainty in reemission probability. Fortunately uncertainty
+in reemission probability at wavelength greater than 300nm does not
+significantly affect Cerenkov fraction\cite{DocDB9847}. The separation
+of Cerenkov light and scintillation light relies on the recorded hittime
+from electronics readout system. Therefore PMT TTS can greatly diminish
+the power of separation. Besides, the separation power should be energy
+depended. For a higher energy, the ratio between direct Cerenkov light
+and re-emission scintillation light is increasing, as shown in
+Fig.~\ref{Cerenkov_fraction}. Here in Geant 4 simulation, the input
+Birk's constant is 6.5$\times$10$^{-3}$g/cm$^{2}$/MeV and the photon yield
+is 10400P.e./MeV.
 \begin{center}
 \includegraphics[width=8.5cm]{eps/Cerenkov_fraction.eps}
 \figcaption{\label{Cerenkov_fraction}   Cerenkov Fraction. }
 \end{center}
-\subsubsection{different PMT time performance.}
-PMT TTS becomes bottleneck for liquid scintillator detectors' time resolution especially for large area
-PMTs with largely varying drifting path. The electronics readout system barely worsen the time resolution
-since high speed waveform sampling technology advances a lot in recent years. In the following studies, four sets of
-PMT timing performance is considered  (Fig.~\ref{figtts}). One nano seconds TTS could be expected by MCP-PMT,
-which can get electron multiplied
-millions of times through several millimeter passages.
-
+\subsection{direction reconstruction performance under different PMT TTS}
+PMT TTS becomes bottleneck for liquid scintillator detectors' time resolution
+especially for large area PMTs with largely varying drifting path. The
+electronics readout system barely worsen the time resolution
+since high speed waveform sampling technology advances a lot in
+recent years. In the following studies, four sets of PMT timing performance
+is considered (Fig.~\ref{figtts}). One nano seconds TTS could be expected by
+MCP-PMT, which can get electron multiplied millions of times through several
+millimeter passages.
 \begin{center}
 \includegraphics[width=8.5cm]{eps/tts.eps}
 \figcaption{\label{figtts}  direction reconstruction performance under different PMT tts. }
 \end{center}
+\subsection{energy related track reconstruction performance}
+Better track reconstruction performance is ascribed to higher Cerenkov fraction 
+in higher electron kinetic energy, as shown in Fig.~\ref{Cerenkov_fraction}. 
+In total, 10 energy points are simulated. These energy are related to the
+energy of prompt signal from inverse beta decay of reactor antielectron neutrinos.
+The other two  energy points are provided for future accelerator neutrino experiments.
+Figure~\ref{rec_performance} shows the
+reconstruction performance when the particles were at detector center and
+shootings towards the positive X axis. 
+In figure~\ref{rec_performance}, the 1$\sigma$ error is defined as 68\% reconstructed
+directions contained in a cone centered by the true direction within this angle.
+\begin{figure}[htbp]
+\centering % \begin{center}/\end{center} takes some additional vertical space
+\includegraphics[width=.75\textwidth]{plots/centerresult}
+% "\includegraphics" is very powerful; the graphicx package is already loaded
+\caption{\label{rec_performance} direction reconstruction performance.}
+\end{figure}
+%\begin{center}
+%\tabcaption{ \label{tab_1sigmaerror}  reconstruction performance.}
+%\footnotesize
+%\begin{tabular*}{190mm}{@{\extracolsep{\fill}}ccccccc}
+%\toprule kinetic energy/MeV & 1/MeV  & 2/MeV &  3/MeV & 4/MeV &  5/MeV \\
+%\hline
+%1 $sigma$ error\hphantom{00} & $95.1^{\circ}$&$78.4^{\circ}$ &$61.1^{\circ}$ &$50.7^{\circ}$&$44.8^{\circ}$\\
+%\toprule kinetic energy/MeV & 6/MeV & 7/MeV & 8/MeV & 40/MeV & 300/MeV\\
+%\hline
+%1 $sigma$ error\hphantom{00} & $39.9^{\circ}$ &$34.1^{\circ}$&$30.6^{\circ}$&$10.2^{\circ}$&$2.4^{\circ}$\\
+%\bottomrule
+%\end{tabular*}%
+%\end{center}
+\todo{need update should be consistent with the plot}
 
-\subsubsection{energy related track reconstruction performance}
-Better track reconstruction performance is ascribed to higher Cerenkov fraction in higher electron kinetic energy,
-as shown in Fig.~\ref{Cerenkov_fraction}.In total,10 energy points are simulated.These energy are related to the
-energy of prompt signal
-from inverse beta decay of reactor antielectron neutrinos. The other two  energy points are provided for future
-accelerator neutrino experiments. In  Table~\ref{tab_1sigmaerror}, the 1$\sigma$ error is defined as 68\% reconstructed directions
-contained in a cone centered by the true direction within this angle.
-
-
-
-
-\begin{center}
-\tabcaption{ \label{tab_1sigmaerror}  reconstruction performance.}
-\footnotesize
-\begin{tabular*}{190mm}{@{\extracolsep{\fill}}ccccccc}
-\toprule kinetic energy/MeV & 1/MeV  & 2/MeV &  3/MeV & 4/MeV &  5/MeV \\
-\hline
-1 $sigma$ error\hphantom{00} & $95.1^{\circ}$&$78.4^{\circ}$ &$61.1^{\circ}$ &$50.7^{\circ}$&$44.8^{\circ}$\\
-\toprule kinetic energy/MeV & 6/MeV & 7/MeV & 8/MeV & 40/MeV & 300/MeV\\
-\hline
-1 $sigma$ error\hphantom{00} & $39.9^{\circ}$ &$34.1^{\circ}$&$30.6^{\circ}$&$10.2^{\circ}$&$2.4^{\circ}$\\
-\bottomrule
-\end{tabular*}%
-\end{center}
-
-
-
-
-
-
-\section{applications}
-\subsection{accelerator neutrino experiment}
-
-Accelerator neutrino experiments use $\bar{\nu}_{\mu}$ antineutrinos from $\mu^{+}$ decay  to search $\delta_{CP}$ by detecting
-$\bar{\nu}_{\mu}$  to $\bar{\nu}_{e}$  appearance.
-By Ref.\cite{angular_corrrelation}, the angular correlation between the incoming antineutrino and
-outgoing positron directions can be parameterized  as Eq.~(\ref{eqangular_correlation}).
-\begin{eqnarray}
-\label{eqangular_correlation}
-\begin{aligned}
-\left<cos\theta\right>&\approx \frac{\nu^{0}_{e}a^{0}}{3}+\frac{1}{3}\left(3+\frac{4(f+f_{2})g}{f^{2}+3g^{2}}\right)\frac{E_{\nu}}{M}\\
-&\approx -0.034\nu^{(0)}_{e} + 2.4\frac{E_{\nu}}{M}
-\end{aligned}
-\end{eqnarray}
-This formula applies to neutrino energy as high as 150MeV, in which case positrons are apparently forward .
-For example, 300 MeV electrons can be reconstructed very well as shown in Fig.~\ref{fige300}. Using the
-angular correlation,inverse beta decay events can be separated from other reactions or detector backgrounds.
-\begin{center}
-\includegraphics[width=8.5cm]{eps/e300.eps}
-\figcaption{\label{fige300}  direction reconstruction for P=300 MeV electrons. }s
-\end{center}
+\section{applications on supernova neutrino direction determination}
 \subsection{supernovae direction determination }
-The supernovae is assumed as the explosion in the final stage of the stellar evolution, one of the most violent and spectacular
-events in the Universe. A core collapse supernovae (SN) may be not optically visible at all due to dust obscuration or because
-some collapsing stars may never blow up into supernovae. However, neutrino signal emerging from the core provides a way to
-determine supernovae direction. JUNO detector can detect about 5000 neutrino events from a 10 kpc supernovae.
-Neutrino fluxes spectral form are approximately parameterized by Eq.~(\ref{eqnuflux}):Ref\cite{nuflux}.
+The supernova (SN) is assumed as the explosion in the final stage of the
+stellar evolution, one of the most violent and spectacular events in the Universe.
+When a star undergoes a type II supernova explosion, more than 99\% of its
+gravitational binding energy is released as neutrinos. The neutrinos are predicted
+to be evenly distributed among the 3 flavours and to have approximately equal
+numbers of particles and antiparticles. 
+A core collapse supernovae (SN) may be not optically visible at all due to
+dust obscuration or because some collapsing stars may never blow up into
+supernovae. However, neutrino signal emerging from the core provides a way to
+determine supernovae direction. Therefore, determination of a SN explosion 
+direction via neutrinos is essential for both early stage astronomical
+observations and optically invisible SN.
+
+The SN pointing study was based on a large Liquid Scintillator detector, such
+as the JUNO detector.
+Jiangmen Underground Neutrino Observatory(JUNO) has 20 kton liquid
+scintillator as target, equipped with more than 18000 PMTs, which provides good
+opportunity for SN detection.There are six detection channels in JUNO.
+Inverse beta decay(IBD) and neutrino-electron scattering are taken to probe the
+supernova direction by utilizing positron and electron track information in
+liquid scintillator. In our study, the neutrino fluxes spectral form are 
+approximately parameterized by Eq.~(\ref{eqnuflux}):Ref\cite{nuflux}.
 \begin{eqnarray}
 \label{eqnuflux}
 \phi(E_{\nu}) &=& N\left(\frac{E_{\nu}}{ \left< E_{\nu}\right>}\right)^{\alpha}exp\left[ -(\alpha+1)\frac{E_{\nu}}{ \left< E_{\nu}\right>}\right]
 \end{eqnarray}
-In simulation, $\alpha$ was taken to be 3 and mean neutrino energy $\left< E_{\nu}\right>$ was 12.0 MeV.The expected supernova
+In simulation, $\alpha$ was taken to be 3 and mean neutrino energy 
+$\left< E_{\nu}\right>$ was 12.0 MeV.The expected supernova
 antielectron neutrino spectra is shown in Fig.~\ref{nuflux_CS}.
 \begin{center}
 \includegraphics[width=8.5cm]{eps/nuflux_CS.eps}
 \figcaption{\label{nuflux_CS}  expected supernova spectra. }
 \end{center}
 
-Positron direction information can be reconstructed from above procedures , here 1ns PMT tts is supposed.
-Neutrino direction can be calculated on a per event basis using conservation of momentum and energy.
-Two difference methods are applied to estimate SN direction. One is the same as \cite{nudir},
-SN direction is estimated based on statistically averaged vector pointing from positron vertex to neutron vertex.
-SN direction uncertainty is $11.21^{\circ}$. The other method takes the statistically averaged
-anti-electron neutrino direction as SN direction, and the SN direction uncertainty is $8.17^{\circ}$.
-Thus, it helps supernovae direction determination if additive positron direction information is used.
+%Positron direction information can be reconstructed from above 
+%procedures , here 1ns PMT tts is supposed.
+Two difference methods are applied to estimate SN direction. 
+One is the same as \cite{nudir}, SN direction is estimated based 
+on statistically averaged vector pointing from positron vertex
+to neutron vertex. %SN direction uncertainty is $11.21^{\circ}$.
+The other method take advantage of the neutrino electron elastic
+scattering reaction channel and use the outgoing electron direction
+to represent the neutrino direction. 
+Neutrino direction can be calculated on a per event basis using 
+conservation of momentum and energy.
 
-
-\section{ Neutrino direction determination via IBD channel}
-%\section{Some examples and best-practices}
+\subsection{ Neutrino direction determination via IBD channel}
 \label{sec:intro}
 In the reaction $\bar{\nu_{e}}+p \rightarrow e^{+}+n$, the
 angular distribution of outgoing neutron is strongly forward peaked, with
@@ -377,8 +477,10 @@ The vector pointing from the reconstructed positron position to the
 reconstructed neutron position was taken as the neutron motion direction.
 Figure~\ref{ibd-basicplot} shows the averaged displacement of neutron and
 positron from IBD reaction induced by supernova neutrinos and the cosine
-projection over the initial neutrino direction. About 5000 IBD events were expected from
-supernova 10kpc away. By a simple center mass method denoted as \eqref{cm},
+projection over the initial neutrino direction.
+For a 10 kpc away supernova with 3$\times$10$^53$ erg energy , assuming a 
+0.2MeV energy threshold, the number of IBD interactions is about 5000.
+By a simple center mass method denoted as \eqref{cm},
 the 68.3\% confidence level error of locating supernova is 13.6 degrees without
 vertex smearing. The one standard deviation error is 14.9 when the vertex
 reconstruction precision follows $12cm/\sqrt{E}$.
@@ -396,115 +498,78 @@ reconstruction precision follows $12cm/\sqrt{E}$.
 \caption{\label{ibd-basicplot} neutron and positron displacement from SN IBD
 channel and slightly forward slope towards the neutrino direction.}
 \end{figure}
-\section{neutrino direction determination via ES channel}
-\subsection{basic principals}
+
+\subsection{neutrino direction determination via ES channel}
+%\subsubsection{basic principals}
 Electrons from the neutrino electron elastic scattering (ES) reaction are
 strongly forward peaked, electron track direction in LS can be reconstructed
-by highly directional Cerenkov light. Assume the refractive index of Liquid Scintillator is 1.46, then the Cerenkov threshold for electron is 0.188 MeV. Thus,plenty of electrons
-can have Cerenkov radiation. The challenge is how to pick up more Cerenkov
-photons in sea of scintillation photons. One possible way to select more
-Cerenkov light is by choosing early hits. Cerenkov light would take the lead in
-the race towards PMT photocathode for two reasons. One is Cerenkov light is
-produced instantaneously, while scintillation light has slow and fast time
-components at nanoseconds time scales. The other is Cerenkov photons have more
-long wavelength photons than scintillation photon. For example, the ratio of
-photons with wavelength longer than 500nm is 23\% for Cerenkov photon, while
-for scintillation the number is about 1\%.
-\subsection{reconstruction method}
-There are two stages in the reconstruction procedures. The first stage is hit
-selection. The aim is to select higher purity of Cerenkov photons. It is
-assumed that all scintillation and Cerenkov light is emitted from a single
-point. Then residual time is calculated. The point time residual is the
-difference between the measured and predicted times of each photon hit.
-The predicted time is calculated by using deposited energy vertex from MC truth. The next step
-is to select hits in the first 2ns time window in the residual time
-distribution plot. After this stage, about ~10\% purity Cerenkov photon purity
-is achieved. The next stage is to track direction reconstruction. In total
-three methods are tested. The first is center mass method
-\eqref{recmethod:1}. The second is orientation matrix method
-\eqref{recmethod:2}. The eigenvector with largest eigenvalue represents the
-reconstructed track direction. The third method is the Likelihood fitting
-method \eqref{recmethod:3}, based on the PMT hit pattern. The predicted hit
-pattern took into account the angular distribution PDF of Cerenkov
-photons and scintillation photons. The annotations in \eqref{recmethod} are
-explained as follows.
-Here i,j denotes for three directions. $\alpha$ is the PMT index. $q_{\alpha}$ is the
-charge of hits. $\theta_{em}^{\alpha}$  is the photon emission angle. r denotes
-the scintillation photon ratio and f,g is the Cerenkov and Scintillation photon
-emission angle distribution PDF. Figure~\ref{rec_performance} shows the
-reconstruction performance when the particles were at detector center and
-shootings towards the positive X axis. The third method gives the best
-performance.
-\begin{subequations}\label{recmethod}
-\begin{align}
-\label{recmethod:1}
-S_{i} & = \sum_{\alpha=1}^{N}q^{\alpha}x_{i}^{\alpha}
-\\
-\label{recmethod:2}
-(OM)_{ij} & = \sum_{\alpha=1}^{N}q^{\alpha}x_{i}^{\alpha}x_{j}^{\alpha}
-\\
-\label{recmethod:3}
-Lh &= \sum_{i=1}^{N_{pmt}}[(Q^{exp}_{i}-Q^{obs}_{i})+log(\frac{Q^{obs}_{i}}{Q^{exp}_{i}}){\times}Q^{obs}_{i}]
-\end{align}
-\end{subequations}
-The expected charge was calculated as this:
-\begin{equation*}
-Q^{exp}_{i} = N_{tot}\times[rf(\theta^{em}_{i})+(1-r)g(\theta^{em}_{i})]{\times}h(\theta^{injection}_{i})\times\frac{e^{-\frac{l_i}{L_{att}}}}{l_i^2}
-\end{equation*}
-%L(\vec{d}) & = -\sum_{\alpha=1}^{N}q_{\alpha}log(rf(\theta_{em}^{\alpha})+(1-r)g(\theta_{em}^{\alpha}))
+by highly directional Cerenkov light. Assume the refractive index of Liquid 
+Scintillator is 1.46, then the Cerenkov threshold for electron is 0.188 MeV.
+Thus,plenty of electrons can have Cerenkov radiation. The challenge is how 
+to pick up more Cerenkov photons in sea of scintillation photons. 
+The present strategy is to select more Cerenkov light is by choosing early hits. 
+Cerenkov photons would take the lead in the race towards PMT photocathode due
+to the two reasons described in previous section. 
+\subsection{SN pointing precision}
+If during the lifetime of JUNO a supernova exploded as expected at the center of
+our Galaxy, JUNO would detect 5,000 inverse beta decay
+events, 300 elastic scattering events in the central detector.
+For SN pointing from ES channel method, the final neutrino direction was the
+averaged result from reconstructed electron directions.
+The 1$\sigma$ error was defined as the cone angle containing 68.3\%
+reconstructed neutrino directions. From Fig~\ref{sn_dir},We can see an 
+improvement from 14.9 degrees to 6.15 degrees from IBD to ES channel
+in the 1ns PMT tts case. Different distance
+supernova and the pointing angular uncertainty was also
+shown at the right plot of Fig~\ref{sn_dir}.
+\todo{rephrase}
 \begin{figure}[htbp]
 \centering % \begin{center}/\end{center} takes some additional vertical space
-\includegraphics[width=.85\textwidth]{plots/centerresult}
-% "\includegraphics" is very powerful; the graphicx package is already loaded
-\caption{\label{rec_performance} direction reconstruction performance.}
-\end{figure}
-\subsection{absolute photon emission angular distribution PDF construction}
-Shape of photon emission angular distribution PDF is derived from MC truth. The
-PDF should be the same in LS detector, independent of the event vertex and the
-track direction. However, PDF from MC truth was coupled with specific detector
-simulation configuration. In my case, my simulation was done under the sniper
-framework~\cite{sniper}. The photon angular distribution difference between particles
-originated at detector center was caused by different PMT configuration since
-PMT was arranged uniformly in the latitude direction.
-When the vertexes deviate from detector center, the solid angles of each PMT
-and PMT response to photons with different incidence angle, to PMT normal
-direction, also contributed to the final angular distribution. Thus, the detector
-effects should be removed to get absolute PDF. LS attenuation effect and PMT
-angular response was derived from MC truth. The attenuation effect was modeled to
-obey the exponential law. By deploying calibration source at certain distance to
-PMT and varying the light injection angle, we can probe the PMT angular
-response. Figure~\ref{att_angu} shows the fitted attenuation length and PMT
-angular response curve to be used to do the detector response correction.
-Figure~\ref{xzcomp} shows the Cerenkov and scintillation PDF before and after
-detector response correction.
-\begin{figure}[htbp]
-\centering % \begin{center}/\end{center} takes some additional vertical space
-\includegraphics[width=.45\textwidth]{plots/attf.pdf}
+\includegraphics[width=.43\textwidth]{plots/esresultf.pdf}
 \hfill
-\includegraphics[width=.45\textwidth]{plots/anguf.pdf}
+\includegraphics[width=.55\textwidth]{plots/moredistancesn.pdf}
 % "\includegraphics" is very powerful; the graphicx package is already loaded
-\caption{\label{att_angu} Attenuation length and angular response.}
+\caption{\label{sn_dir} SN pointing precision using ES channel.
+(left.)reconstructed direction distribution (right.) angular uncertainty and SN
+distance}
 \end{figure}
-\begin{figure}[htbp]
-\centering % \begin{center}/\end{center} takes some additional vertical space
-\includegraphics[width=.45\textwidth]{plots/cor_before.pdf}%final1.pdf}
-\hfill
-\includegraphics[width=.45\textwidth]{plots/cor_after.pdf}%final2.pdf}
-% "\includegraphics" is very powerful; the graphicx package is already loaded
-\caption{\label{xzcomp} photon emission angular pdf before and after
-correction.}
-\end{figure}
-\subsection{challenges discussion}
-\subsubsection{statistical fluctuation}
+Determination of track direction in large liquid scintillator detector can be
+used in other aspects. Accelerator neutrino experiments use $\bar{\nu}_{\mu}$ 
+antineutrinos from $\mu^{+}$ decay  to search $\delta_{CP}$ by detecting
+$\bar{\nu}_{\mu}$  to $\bar{\nu}_{e}$  appearance.
+By Ref.\cite{angular_corrrelation}, the angular correlation between the 
+incoming antineutrino and outgoing positron directions can be parameterized
+as Eq.~(\ref{eqangular_correlation}).
+\begin{eqnarray}
+\label{eqangular_correlation}
+\begin{aligned}
+\left<cos\theta\right>&\approx \frac{\nu^{0}_{e}a^{0}}{3}+\frac{1}{3}\left(3+\frac{4(f+f_{2})g}{f^{2}+3g^{2}}\right)\frac{E_{\nu}}{M}\\
+&\approx -0.034\nu^{(0)}_{e} + 2.4\frac{E_{\nu}}{M}
+\end{aligned}
+\end{eqnarray}
+This formula applies to neutrino energy as high as 150MeV, in which case 
+positrons are apparently forward. For example, 300 MeV electrons can be
+reconstructed very well as shown in Fig.~\ref{fige300}. Using the
+angular correlation,inverse beta decay events can be separated from other
+reactions or detector backgrounds.
+\begin{center}
+\includegraphics[width=8.5cm]{eps/e300.eps}
+\figcaption{\label{fige300}  direction reconstruction for P=300 MeV electrons. }s
+\end{center}
+
+\section{challenges discussion on angular likelihood reconstruction method}
+\todo{add intro here}
+\subsection{statistical fluctuation}
 The basic idea of Likelihood fitting method could be illustrated as the left plot
 in Fig~\ref{dis_power}. We discriminate track direction by the region shown in
 the plot. For 8 MeV events, in total ~150 hits are selected from reconstruction
-stage one, hit selection stage. Some events did not have enough hits in the discrimination power
-region. If the Cerenkov bump was not prominent, the scintillation ratio fit
-result would fall to 1. In this case, the final direction result was from center mass
-method. The ratio fit value falling out to 1 problem  was reproduced by toyMC. If we
-enlarged the statistics by 10 times in toyMC, this problem disappeared as shown
-in the right plot of Fig~\ref{dis_power}.
+stage one, hit selection stage. Some events did not have enough hits in the
+discrimination power region. If the Cerenkov bump was not prominent,
+the scintillation ratio fit result would fall to 1. In this case, the final
+direction result was from center mass method. The ratio fit value falling
+out to 1 problem  was reproduced by toyMC. If we enlarged the statistics by
+10 times in toyMC, this problem disappeared as shown in the right plot of
+Fig~\ref{dis_power}. 
 \begin{figure}[htbp]
 \centering % \begin{center}/\end{center} takes some additional vertical space
 \includegraphics[width=.45\textwidth]{plots/dis_power4ratio.pdf}
@@ -512,7 +577,7 @@ in the right plot of Fig~\ref{dis_power}.
 % "\includegraphics" is very powerful; the graphicx package is already loaded
 \caption{\label{dis_power} statistical fluctuation study.}
 \end{figure}
-\subsubsection{factors influence residual time distribution}
+\subsection{factors influence residual time distribution}
 PMT transit time spread (TTS) could smear the residual time distribution used
 in the first stage of direction reconstruction, and makes Cerenkov and
 scintillation light separation harder. This effect was taken into
@@ -522,13 +587,13 @@ tts. Another significant factor is TOF calculation. At present, it is supposed
 that photons travel in straight lines and two effective speed in LS and buffer
 was applied(Fig~\ref{caltof_wave_r}). However, this was not true. Light was
 refracted on passing through acrylic container and the emission spectrum of PPO
-spread from 300 to 650 nm. As shown in Fig~\ref{caltof_wave_r}, when the light path is
-longer, the averaged wavelength shift towards longer wavelength.
-Fig~\ref{tof_cor} shows the reconstruction performance using single effective
-speed and multi effective speed. If we use single effective speed, PMT far
-away from the event vertex were more likely to be falsely taken as early hits
-in the residual time distribution. This was caused by underestimated TOF of
-long light path photons.
+spread from 300 to 650 nm. As shown in Fig~\ref{caltof_wave_r}, 
+when the light path is longer, the averaged wavelength shift towards
+longer wavelength. Fig~\ref{tof_cor} shows the reconstruction performance
+using single effective speed and multi effective speed. If we use single
+effective speed, PMT far away from the event vertex were more likely to be falsely
+taken as early hits in the residual time distribution. This was caused by
+underestimated TOF of long light path photons.
 \begin{figure}[htbp]
 \centering % \begin{center}/\end{center} takes some additional vertical space
 %\includegraphics[width=.45\textwidth]{plots/caltof2.pdf}
@@ -546,62 +611,8 @@ long light path photons.
 % "\includegraphics" is very powerful; the graphicx package is already loaded
 \caption{\label{tof_cor} single and multi effective speed comparison.}
 \end{figure}
-\section{}
+\todo{add more content}
 
-The supernova(SN) is assumed as the explosion in the final stage of the
-stellar evolution. Determination of a SN explosion direction is essential for
-both early stage astronomical observations and optically invisible SN.
-Jiangmen Underground Neutrino Observatory(JUNO) has 20 kton liquid
-scintillator as target, equipped with more than 18000 PMTs, which provides good
-opportunity for SN detection.There are six detection channels in JUNO.
-Inverse beta decay(IBD) and neutrino-electron scattering are taken to probe the
-supernova direction by utilizing positron and electron track information in
-liquid scintillator.
-
-\subsection{SN pointing precision}
-
-If during the lifetime of JUNO a supernova exploded as expected at the center of
-    our Galaxy, JUNO would detect 5,000 inverse beta decay
-    events, 300 elastic scattering events in the central detector.
-%In the JUNO detector, ~300 ES events can be observed.
-For SN pointing from ES channel method, the final neutrino direction was the
-averaged result from reconstructed electron directions.
-The 1$\sigma$ error was defined as the cone angle containing 68.3\%
-reconstructed neutrino directions. From Fig~\ref{sn_dir},We can see an improvement from 14.9 degrees to
-6.15 degrees from IBD to ES channel in the 1ns PMT tts case. Different distance
-supernova and the pointing angular uncertainty was also shown at the right plot
-of Fig~\ref{sn_dir}.
-%  Expected number of neutrino events in the different interaction channels in
-%  SNO+ for a 10kpc supernova, assuming MSW oscillations.(**assuming a 0.2MeV
-%  threshold).the number of interactions of each type expected from a 3x1053
-%  erg supernova 10kpc from earth
-%When a star undergoes a type II supernova explosion, more than 99% of its
-%gravitational binding energy is released as neutrinos. This results in more
-%neutrinos being produced in the span of a few seconds than are released in
-%the rest of the star's life combined. The neutrinos are predicted to be
-%evenly distributed among the 3 flavours and to have approximately equal
-%numbers of particles and antiparticles. The neutrino flux is so large, in
-%fact, that even a supernova at galactic distances should produce a large
-%number of events in SNO+. Indeed, neutrinos from supernova 1987A, which
-%occurred about 50kpc away from earth in the Large Magellanic Cloud, were
-%detected by the KamiokandeII, IMB and Baksan neutrino detectors (11, 8,
-%and 5 events, respectively in ~13s). This data has been used for everything
-%from testing neutrino oscillation models [1] , to setting limits on
-%neutrino mass [2] , to constraining the size of possible compact
-%dimensions in the universe [3] . In fact, there is a paper [4] entitled "Yet
-%Another Paper on Sn1987a....". If neutrinos from a supernova within our galaxy
-%are ever detected, the greater number of observed events would give much
-%more information about stellar and neutrino physics.
-\begin{figure}[htbp]
-\centering % \begin{center}/\end{center} takes some additional vertical space
-\includegraphics[width=.43\textwidth]{plots/esresultf.pdf}
-\hfill
-\includegraphics[width=.55\textwidth]{plots/moredistancesn.pdf}
-% "\includegraphics" is very powerful; the graphicx package is already loaded
-\caption{\label{sn_dir} SN pointing precision using ES channel.
-(left.)reconstructed direction distribution (right.) angular uncertainty and SN
-distance}
-\end{figure}
 %For supernovae neutrinos,the  The positrons could be assumed
 %to deposit their energy near the generating vertex. This is reasonable ,for
 %example ,in LS, the track length of positron is only about few centimetre.
