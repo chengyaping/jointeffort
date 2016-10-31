@@ -2,7 +2,7 @@
 \documentclass[a4paper,10pt]{cpc-hepnp}
 
 %\pdfoutput=1
-
+\usepackage{soul}
 \usepackage{graphicx}
 \usepackage{epstopdf}
 \usepackage{subfig}
@@ -15,7 +15,10 @@
 
 \begin{document}
 
-\title{electron track direction study in Liquid Scintillator Detector}
+\title{electron track direction determination study in Liquid Scintillator
+Detector? \\  \hl{Tracking} ability study of Liquid Scintillator?
+\\
+Directionality in Liquid Scintillator}
 
 \author{%
       Cheng Yaping$^{1}$\email{chengyp@mail.ihep.ac.cn}%
@@ -31,6 +34,7 @@ $^1$ Institute of High Energy Physics, Chinese
 
 
 \begin{abstract}
+In neutrino detection,
 Liquid Scintillator detector features low energy threshold
 and good energy resolution. Since scintillation light is isotropic,
 we cannot tell the track information from PMT hit pattern.
@@ -78,6 +82,8 @@ The basic principal is to increase the Cerenkov light ratio to about 10\% by sel
 hits using a time window. Then using a maximum
 likelihood method based on photon angular distribution we can reconstruct the
 track direction.
+\hl{Any support material from the high-speed sampling readout and waveform
+reconstruction?}
 
 \section{General discussion about track direction extraction in LS}
 
@@ -94,17 +100,19 @@ derived using scintillation light.\todo {appropriate?}
 Firstly, the feasibility to pick up Cerenkov light in a sea of scintillation photons
 need to be studied.
 All studies are performed under the Geant4 simulation for a large Liquid
-scintillator.
+scintillator. A brief description of the parameters closely related to
+simulation is shown as follows.
 The fiducial mass is 20 Kton with LS sphere radius 17.7m.
-The PMT photocathode coverage is $\ge$ 75\% and its
+The PMT photocathode coverage is $\approx$ \hl{75}\% and its
 quantum efficiency is
-$\ge$ 35\%. The attenuation length of the liquid scintillator needs to be $\ge$ 20m at 430 nm.\todo {more specific}
+$\approx$ \hl{35}\%. The attenuation length of the liquid
+scintillator needs to be $\ge$ \hl{20}m at 430 nm.\todo {more specific}
 %\begin{center}
 %\includegraphics[width=8.5cm]{eps/detector2.eps}
 %\figcaption{\label{LSDetector}   JUNO Liquid Scintillator Detector. }
 %\end{center}
 %\subsection{principals to separate Cerenkov light and scintillation light}
-One possible way to distinguish Cerenkov light and scintillating light is by their hittime
+ One possible way to distinguish Cerenkov light and scintillating light is by their hittime
 difference\cite{lab2}. We expect PMT detect Cerenkov light earlier than scintillation light.
 On the one hand, all Liquid scintillator has fast and slow components. In our
 case, the fast and slow time constants are 4.93 and 20.6 ns respectively with
@@ -141,13 +149,15 @@ Both facts makes Cerenkov photon keeps ahead.
 \centering
 \begin{minipage}{0.5\textwidth}
 \centering
-\includegraphics[width=7cm]{eps/wavelength.eps}
-\caption{PMT Detected Wavelength Distribution}
+\includegraphics[width=8cm]{eps/CS_sep.eps}
+\label{figCS_sep}
+\caption{Hittime difference}
 \end{minipage}%
 \begin{minipage}{0.5\textwidth}
 \centering
-\includegraphics[width=8cm]{eps/CS_sep.eps}
-\caption{Hittime difference}
+\includegraphics[width=7cm]{eps/wavelength.eps}
+\label{figwavelength}
+\caption{PMT Detected Wavelength Distribution}
 \end{minipage}
 \end{figure}
 %\begin{center}
@@ -168,6 +178,7 @@ process. The multiple scattering of electrons make the Cerenkov ring fuzzy. In o
 evaluate the intrinsic angular resolution of LS, the deposited energy weighted
 angular error is show in Table~\ref{tab2}. Multi-scattering
 contributes a lot to electron's drifting away from its original track.
+\hl{any way to improve this?}
 \begin{center}
 \includegraphics[width=8.5cm]{eps/msc_effect.eps}
 \figcaption{\label{msc_effect} electron track in Liquid Scintillator.}
@@ -184,7 +195,7 @@ contributes a lot to electron's drifting away from its original track.
 \bottomrule
 \end{tabular*}
 \end{center}
-\todo{necessary?}
+\hl{necessary? to be update}
 
 
 \section{electron track direction reconstruction method}
@@ -770,6 +781,9 @@ Publisher (year).
 
 
 \clearpage
+\appendix
+\section{key materials necessary to reproduce the simulation}
+
 
 \end{document}
 
